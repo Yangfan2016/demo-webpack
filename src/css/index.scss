@@ -1,0 +1,17 @@
+@charset 'utf-8';
+/* comments */
+$bgColor: black !default;
+body {
+  background-color: $bgColor;
+  color: #fff;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.box {
+  color: #fff;
+}
+.js-box {
+  color: #fff;
+}
+.useless {
+  color: #fff;
+}

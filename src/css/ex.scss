@@ -1,0 +1,8 @@
+$foreColor: #f09;
+
+h2 {
+  font-family: "Times New Roman", Times, serif;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transform: translate(0,0);
+  color: $foreColor;
+}
