@@ -1,5 +1,6 @@
 @charset 'utf-8';
 /* comments */
+
 @import './ex.scss';
 h1 {
     color: #454545;

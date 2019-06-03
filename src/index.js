@@ -61,18 +61,37 @@
 //     });
 // });
 
-import './css';
 
 
-import { join } from 'lodash-es';
+// import { join } from 'lodash-es';
 
-console.log(join(['a', 'b', 'c'], '-'));
+// console.log(join(['a', 'b', 'c'], '-'));
 
 // import _ from 'lodash';
 
 // console.log(_.join(['a', 'b', 'c'], '-'));
 
-let box = document.createElement('div');
-box.className = 'js-box';
+// import './css';
+// import img from './assets/images/2.png';
 
-document.body.appendChild(box);
+// let box = document.createElement('div');
+// box.className = 'js-box';
+// box.style.cssText = `;background-image:url(${img});`;
+
+
+// document.body.appendChild(box);
+
+
+import $ from 'jquery';
+
+$('body').css('background-color', '#080');
+
+import _ from 'lodash';
+
+res = _.join(['a', 'b', 'c'], '***');
+
+console.log(res);
+
+import Vue from 'vue';
+
+new Vue;

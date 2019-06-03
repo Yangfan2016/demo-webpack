@@ -10,6 +10,7 @@ const ROOT_PATH = __dirname;
 
 module.exports = {
     // mode: "development",
+    devtool: 'source-map',
     entry: path.resolve(ROOT_PATH, './src/index.js'),
     output: {
         publicPath: "./", // cdn 网址或 网站路径
@@ -28,23 +29,22 @@ module.exports = {
                 //     priority: 12,
                 //     reuseExistingChunk: true,
                 // },
-                // jquery: {
-                //     name: 'jquery',
-                //     test: /[\\/]node_modules[\\/]jquery[\\/]/,
-                //     priority: 9,
-                // },
-                // lodash: {
-                //     name: 'lodash',
-                //     test: /[\\/]node_modules[\\/]lodash[\\/]/,
-                //     priority: 10,
-                // },
-                // vendors: {
-                //     name: 'vendors',
-                //     test: /[\\/]node_modules[\\/]/,
-                //     priority: -10,
-                // },
+                jquery: {
+                    name: 'jquery',
+                    test: /[\\/]node_modules[\\/]jquery[\\/]/,
+                    priority: 10,
+                },
+                lodash: {
+                    name: 'lodash',
+                    test: /[\\/]node_modules[\\/]lodash[\\/]/,
+                    priority: 9,
+                },
+                vendors: {
+                    name: 'vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: 1,
+                },
                 default: {
-                    name: "d",
                     priority: -20,
                     reuseExistingChunk: true,
                 },
@@ -66,6 +66,12 @@ module.exports = {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // 在为css文件配置 loader时， 添加 publicPath 属性。 
+                            // 这样做， 我们在图片打包时， 仍会将图片复制在 /dist/images/ 文件夹之下， 
+                            // 但是 在css文件中引用时， 会将路径替换为 publicPath + name
+                            publicPath: '../../',
+                        },
                     },
                     {
                         loader: 'css-loader',
@@ -80,14 +86,30 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
+                            ident: 'postcss',
                             plugins: [
                                 // 加 前缀
-                                require('autoprefixer')
+                                require('autoprefixer'),
+                                // 生成雪碧图
+                                require('postcss-sprites')({
+                                    // spritePath:'',
+                                })
                             ],
                         },
                     },
                     'sass-loader',
                 ],
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192,
+                        outputPath: 'static/images',
+                        name: '[name]-[hash:5].min.[ext]',
+                    }
+                }
             }
         ]
     },

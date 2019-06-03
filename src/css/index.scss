@@ -8,10 +8,24 @@ body {
 }
 .box {
   color: #fff;
+  width: 100px;
+  height: 100px;
+  background-image: url(../assets/images/2.png);
+  background-repeat: no-repeat;
 }
 .js-box {
   color: #fff;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .useless {
   color: #fff;
+}
+.bg {
+  width: 100px;
+  height: 100px;
+  background-image: url(../assets/images/1.jpg);
+  background-repeat: no-repeat;
 }
