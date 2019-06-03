@@ -18,10 +18,10 @@ module.exports = {
         app: path.resolve(ROOT_PATH, './src/index.js'),
     },
     output: {
-        // publicPath: !isProd ? "./" : undefined, // cdn 网址或 网站路径
+        publicPath: !isProd ? "./" : undefined, // cdn 网址或 网站路径
         path: path.resolve(ROOT_PATH, './build'),
         filename: 'static/js/[name].min.js',
-        chunkFilename: 'static/js/[name]-chunk.min.js' // 代码拆分后的文件名
+        chunkFilename: 'static/js/[name].min.js' // 代码拆分后的文件名
     },
     optimization: {
         splitChunks: {
@@ -97,7 +97,7 @@ module.exports = {
                                 require('autoprefixer'),
                                 // 生成雪碧图
                                 // require('postcss-sprites')({
-                                //     // spritePath:'',
+                                //     spritePath:'',
                                 // })
                             ],
                         },
@@ -146,7 +146,7 @@ module.exports = {
                 minifyCSS: true, // 压缩内联样式
                 minifyJS: true, // 压缩内联脚本
             },
-            chunks: ['app'],
+            // chunks: ['vendors~app','vendors~watch', 'watch', 'app'],
         }),
         // 抽离 css 为独立文件
         new MiniCssExtractPlugin({
@@ -174,7 +174,8 @@ module.exports = {
             jQuery: 'jquery',
         }),
         // HMR 热模块替换
-        // new webpack.HotModuleReplacementPlugin
+        new webpack.HotModuleReplacementPlugin,
+        new webpack.NamedModulesPlugin,
     ],
     resolve: {
         // 省略的文件后缀名
@@ -189,10 +190,9 @@ module.exports = {
         publicPath: '/',
         port: 9876,
         // 开启 HMR
-        // hot: true,
+        hot: true,
 
         // By default files from `contentBase` will not trigger a page reload.
-        // watchContentBase: true,
-        // inline:true,
+        watchContentBase: true,
     },
 };

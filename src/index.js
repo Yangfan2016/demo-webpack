@@ -89,13 +89,13 @@ import './assets/fonts/iconfont.css';
 import Vue from 'vue';
 import _ from 'lodash';
 
-$('body').css('background-color', '#256');
+$('body').css('background-color', '#123');
 
 console.log(jQuery === $);
 
 
 
-let res = _.join(['adefgf', 'b', 'c'], '***');
+let res = _.join(['123', 'b78', '678'], '***');
 
 console.log(res);
 
@@ -103,3 +103,14 @@ console.log(res);
 
 new Vue;
 
+
+import './change';
+
+// if (module.hot) {
+//     module.hot.accept('./change.js', function () {
+//         console.log('==========  [CHANGED]  index.js    =======');
+//     });
+//     module.hot.accept('./css/base.css', function () {
+//         console.log('==========  [CHANGED]  base.css    =======');
+//     });
+// }
