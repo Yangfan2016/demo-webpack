@@ -54,7 +54,9 @@ module.exports = {
                 //     reuseExistingChunk: true,
                 // },
             },
-        }
+        },
+        // Keep the runtime chunk separated to enable long term caching
+        runtimeChunk: true,
     },
     module: {
         rules: [
