@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,12 +9,16 @@ const glob = require('glob-all');
 
 const ROOT_PATH = __dirname;
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
-    // mode: "development",
+    mode: isProd ? 'production' : 'development',
     devtool: 'source-map',
-    entry: path.resolve(ROOT_PATH, './src/index.js'),
+    entry: {
+        app: path.resolve(ROOT_PATH, './src/index.js'),
+    },
     output: {
-        publicPath: "./", // cdn 网址或 网站路径
+        // publicPath: !isProd ? "./" : undefined, // cdn 网址或 网站路径
         path: path.resolve(ROOT_PATH, './build'),
         filename: 'static/js/[name].min.js',
         chunkFilename: 'static/js/[name]-chunk.min.js' // 代码拆分后的文件名
@@ -29,25 +34,25 @@ module.exports = {
                 //     priority: 12,
                 //     reuseExistingChunk: true,
                 // },
-                jquery: {
-                    name: 'jquery',
-                    test: /[\\/]node_modules[\\/]jquery[\\/]/,
-                    priority: 10,
-                },
-                lodash: {
-                    name: 'lodash',
-                    test: /[\\/]node_modules[\\/]lodash[\\/]/,
-                    priority: 9,
-                },
-                vendors: {
-                    name: 'vendors',
-                    test: /[\\/]node_modules[\\/]/,
-                    priority: 1,
-                },
-                default: {
-                    priority: -20,
-                    reuseExistingChunk: true,
-                },
+                // jquery: {
+                //     name: 'jquery',
+                //     test: /[\\/]node_modules[\\/]jquery[\\/]/,
+                //     priority: 10,
+                // },
+                // lodash: {
+                //     name: 'lodash',
+                //     test: /[\\/]node_modules[\\/]lodash[\\/]/,
+                //     priority: 9,
+                // },
+                // vendors: {
+                //     name: 'vendors',
+                //     test: /[\\/]node_modules[\\/]/,
+                //     priority: 1,
+                // },
+                // default: {
+                //     priority: -20,
+                //     reuseExistingChunk: true,
+                // },
             },
         }
     },
@@ -91,9 +96,9 @@ module.exports = {
                                 // 加 前缀
                                 require('autoprefixer'),
                                 // 生成雪碧图
-                                require('postcss-sprites')({
-                                    // spritePath:'',
-                                })
+                                // require('postcss-sprites')({
+                                //     // spritePath:'',
+                                // })
                             ],
                         },
                     },
@@ -110,7 +115,18 @@ module.exports = {
                         name: '[name]-[hash:5].min.[ext]',
                     }
                 }
-            }
+            },
+            {
+                test: /\.(eot|woff2?|ttf|svg)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192,
+                        outputPath: 'static/fonts',
+                        name: '[name]-[hash:5].min.[ext]',
+                    }
+                }
+            },
         ]
     },
     plugins: [
@@ -130,6 +146,7 @@ module.exports = {
                 minifyCSS: true, // 压缩内联样式
                 minifyJS: true, // 压缩内联脚本
             },
+            chunks: ['app'],
         }),
         // 抽离 css 为独立文件
         new MiniCssExtractPlugin({
@@ -150,10 +167,32 @@ module.exports = {
                 path.resolve(ROOT_PATH, './public/*.html'), // 请注意，我们同样需要对 html 文件进行 tree shaking
                 path.resolve(ROOT_PATH, './src/*.js')
             ])
-        })
+        }),
+        // 自动加载模块，而不必到处 import 或 require
+        new webpack.ProvidePlugin({
+            $: 'jquery', // [key]: [npm module]
+            jQuery: 'jquery',
+        }),
+        // HMR 热模块替换
+        // new webpack.HotModuleReplacementPlugin
     ],
     resolve: {
         // 省略的文件后缀名
         extensions: [' ', '.js', '.json', '.vue', '.scss', '.sass', '.css'],
-    }
+    },
+    devServer: {
+        contentBase: path.join(ROOT_PATH, 'build'),
+        // 它会告诉 WebpackDevServer 使用这个配置作为根路径
+        // 开发环境下，应该总是设置为 '/'
+        // It is important to tell WebpackDevServer to use the same "root" path
+        // as we specified in the config. In development, we always serve from /.
+        publicPath: '/',
+        port: 9876,
+        // 开启 HMR
+        // hot: true,
+
+        // By default files from `contentBase` will not trigger a page reload.
+        // watchContentBase: true,
+        // inline:true,
+    },
 };

@@ -82,16 +82,24 @@
 // document.body.appendChild(box);
 
 
-import $ from 'jquery';
+// import $ from 'jquery';
 
-$('body').css('background-color', '#080');
-
+import './css/base';
+import './assets/fonts/iconfont.css';
+import Vue from 'vue';
 import _ from 'lodash';
 
-res = _.join(['a', 'b', 'c'], '***');
+$('body').css('background-color', '#256');
+
+console.log(jQuery === $);
+
+
+
+let res = _.join(['adefgf', 'b', 'c'], '***');
 
 console.log(res);
 
-import Vue from 'vue';
+
 
 new Vue;
+

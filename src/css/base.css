@@ -1,8 +1,26 @@
-@charset 'utf-8';
-/* comments */
-
-@import './ex.scss';
-h1 {
-    color: #454545;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+/* base.css */
+*,
+body {
+  margin: 0;
+  padding: 0;
+}
+.box {
+  height: 400px;
+  width: 400px;
+  border: 5px solid #256;
+  color: #000;
+}
+.box div {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+.box .ani1 {
+  background: url('../assets/images/1.jpg') no-repeat;
+}
+.box .ani2 {
+  background: url('../assets/images/2.png') no-repeat;
+}
+.box .ani3 {
+  background: url('../assets/images/3.png') no-repeat;
 }
