@@ -40,7 +40,8 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --open --progress --hot",
-    "build": "NODE_ENV=production webpack --mode production"
+    "build": "NODE_ENV=production webpack --mode production",
+    "b:lib": "webpack --config webpack.lib.config.js --progress"
   },
   "browserslist": [
     "> 1%",
