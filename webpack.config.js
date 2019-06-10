@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const PurifyCSS = require('purifycss-webpack');
 const glob = require('glob-all');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const ROOT_PATH = __dirname;
 
@@ -178,6 +179,11 @@ module.exports = {
         // HMR 热模块替换
         new webpack.HotModuleReplacementPlugin,
         new webpack.NamedModulesPlugin,
+        // PWA
+        new WorkboxWebpackPlugin.GenerateSW({
+            skipWaiting: true, // 强制等待中的 Service Worker 被激活
+            clientsClaim: true, // Service Worker 被激活后使其立即获得页面控制权
+        })
     ],
     resolve: {
         // 省略的文件后缀名

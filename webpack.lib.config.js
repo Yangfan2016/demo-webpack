@@ -6,18 +6,32 @@ module.exports = {
     mode: "production",
     devtool: "source-map",
     entry: {
-        yf: path.resolve(ROOT_PATH, "./src/yf.js"),
+        yf: path.resolve(ROOT_PATH, "./src/yf.ts"),
     },
     output: {
         filename: "[name].min.js",
-        path: path.resolve(ROOT_PATH, "./dist"),
+        path: path.resolve(ROOT_PATH, "./test"),
         libraryTarget: "umd",
         library: "yf",
-        // libraryExport:'default',
+        libraryExport: 'default',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: {
+                    loader: 'ts-loader',
+                }
+            }
+        ],
     },
     externals: [
         {
-            _: 'lodash',
+            lodash: 'lodash',
         }
     ],
+    resolve: {
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: [".ts", ".tsx", ".js"]
+      },
 };

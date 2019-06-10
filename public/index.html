@@ -32,7 +32,20 @@
     <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script> -->
     <!-- js -->
     <script>
-        console.log(6666);
+        console.log(789);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('/service-worker.js')
+                    .then(registration => {
+                        registration.update();
+                        console.log('service-worker registed')
+                    })
+                    .catch(error => {
+                        console.log('service-worker registed error')
+                    })
+            })
+        };
     </script>
 </body>
 
