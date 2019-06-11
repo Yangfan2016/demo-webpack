@@ -27,11 +27,12 @@ module.exports = {
     },
     externals: [
         {
-            lodash: 'lodash',
+            lodash: '_',
         }
     ],
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: [".ts", ".tsx", ".js"]
-      },
+    },
 };
+

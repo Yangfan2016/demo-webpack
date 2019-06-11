@@ -46,9 +46,9 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --open --progress --hot",
     "build": "NODE_ENV=production webpack --mode production",
-    "build:lib": "webpack --config webpack.lib.config.js --progress",
+    "b": "webpack --config webpack.lib.config.js --progress",
     "preview": "yarn build && http-server ./build -p 9090",
-    "test": "yarn build:lib && http-server ./test -p 9091",
+    "test": "yarn b && http-server ./test -p 9091",
     "tsc":"tsc ./src/yf.ts --outDir ./src --module ESNext --sourceMap false"
   },
   "browserslist": [

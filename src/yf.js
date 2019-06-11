@@ -1,4 +1,5 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
+
 export function add(a, b) {
     console.log(_.join([a, b], '-'));
     return a + b;
