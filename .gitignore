@@ -16,7 +16,7 @@ sketch
 coverage
 .rpt2_cache
 
-
+node_modules
 build
 dist
 dll

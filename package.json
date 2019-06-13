@@ -53,7 +53,8 @@
     "preview": "yarn build && http-server ./build -p 9090",
     "test": "yarn build:lib && http-server ./test -p 9091",
     "tsc": "tsc ./src/yf.ts --outDir ./src --module ESNext --sourceMap false",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:m":"webpack --config ./demo-multiple-page/webpack.config.js --progress"
   },
   "browserslist": [
     "> 1%",
