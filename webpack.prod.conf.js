@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 const path = require('path');
-const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,20 +8,17 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const PurifyCSS = require('purifycss-webpack');
 const glob = require('glob-all');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 const ROOT_PATH = __dirname;
 
-const isProd = process.env.NODE_ENV === 'production';
-
 module.exports = {
-  mode: isProd ? 'production' : 'development',
+  mode: 'production',
   devtool: 'source-map',
   entry: {
     app: path.resolve(ROOT_PATH, './src/index.js'),
   },
   output: {
-    publicPath: !isProd ? "./" : undefined, // cdn 网址或 网站路径
+    publicPath: "./", // cdn 网址或 网站路径
     path: path.resolve(ROOT_PATH, './build'),
     filename: 'static/js/[name]-[chunkhash].min.js',
     chunkFilename: 'static/js/[name]-[chunkhash].min.js' // 代码拆分后的文件名
@@ -31,31 +27,14 @@ module.exports = {
     splitChunks: {
       chunks: "all",
       cacheGroups: {
-        // commons: {
-        //     name: "commons",
-        //     minSize: 0,
-        //     minChunks: 2,
-        //     priority: 12,
-        //     reuseExistingChunk: true,
-        // },
-        // jquery: {
-        //     name: 'jquery',
-        //     test: /[\\/]node_modules[\\/]jquery[\\/]/,
-        //     priority: 10,
-        // },
-        // lodash: {
-        //     name: 'lodash',
-        //     test: /[\\/]node_modules[\\/]lodash[\\/]/,
-        //     priority: 9,
-        // },
         vendors: {
-            name: 'vendors',
-            test: /[\\/]node_modules[\\/]/,
-            priority: 1,
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          priority: 1,
         },
         default: {
-            priority: -20,
-            reuseExistingChunk: true,
+          priority: -20,
+          reuseExistingChunk: true,
         },
       },
     },
@@ -158,7 +137,6 @@ module.exports = {
         minifyCSS: true, // 压缩内联样式
         minifyJS: true, // 压缩内联脚本
       },
-      // chunks: ['vendors~app','vendors~watch', 'watch', 'app'],
     }),
     // 抽离 css 为独立文件
     new MiniCssExtractPlugin({
@@ -180,50 +158,14 @@ module.exports = {
         path.resolve(ROOT_PATH, './src/*.js')
       ])
     }),
-    // 自动加载模块，而不必到处 import 或 require
-    new webpack.ProvidePlugin({
-      $: 'jquery', // [key]: [npm module]
-      jQuery: 'jquery',
-    }),
-    // HMR 热模块替换
-    // new webpack.HotModuleReplacementPlugin,
-    // new webpack.NamedModulesPlugin,
     // PWA
     new WorkboxWebpackPlugin.GenerateSW({
       skipWaiting: true, // 强制等待中的 Service Worker 被激活
       clientsClaim: true, // Service Worker 被激活后使其立即获得页面控制权
     }),
-    // 它会将我们打包后的 dll.js 文件注入到我们生成的 index.html
-    new AddAssetHtmlWebpackPlugin({
-      filepath: path.resolve(ROOT_PATH, "./dll/_.dll.js"),
-    }),
-    new AddAssetHtmlWebpackPlugin({
-      filepath: path.resolve(ROOT_PATH, "./dll/jQuery.dll.js"),
-    }),
-    // 引入我们打包后的映射文件
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(ROOT_PATH, "./dll/_.manifest.json"),
-    }),
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(ROOT_PATH, "./dll/jQuery.manifest.json"),
-    }),
   ],
   resolve: {
     // 省略的文件后缀名
     extensions: [' ', '.js', '.json', '.vue', '.scss', '.sass', '.css'],
-  },
-  devServer: {
-    contentBase: path.join(ROOT_PATH, 'build'),
-    // 它会告诉 WebpackDevServer 使用这个配置作为根路径
-    // 开发环境下，应该总是设置为 '/'
-    // It is important to tell WebpackDevServer to use the same "root" path
-    // as we specified in the config. In development, we always serve from /.
-    publicPath: '/',
-    port: 9876,
-    // 开启 HMR
-    hot: true,
-
-    // By default files from `contentBase` will not trigger a page reload.
-    watchContentBase: true,
   },
 };
